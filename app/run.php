@@ -4,7 +4,7 @@
  * @email: shuyudao@gmail.com
  * @Date: 2020-04-09 04:11:59
  * @LastEditors: 术与道
- * @LastEditTime: 2020-04-09 23:26:06
+ * @LastEditTime: 2020-04-10 04:18:09
  */
 namespace app;
 
@@ -13,9 +13,7 @@ use Exception;
 class Run{
 
     static function start($conf){
-
         $res = Doc::getApiFile($conf);
-
         \app\Output::out($res,$conf);
     }
 

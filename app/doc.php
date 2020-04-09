@@ -4,7 +4,7 @@
  * @email: shuyudao@gmail.com
  * @Date: 2020-04-09 04:18:42
  * @LastEditors: 术与道
- * @LastEditTime: 2020-04-09 23:06:32
+ * @LastEditTime: 2020-04-10 04:18:35
  */
 namespace app;
 
@@ -23,6 +23,7 @@ use Exception;
      */
     static function getApiFile($conf){
         foreach($conf['class'] as $temp){
+            $temp = $conf['publicPath']."/".$temp;
             $tRes = Doc::docParse($temp);
             $result[] = $tRes;
         }
@@ -37,20 +38,26 @@ use Exception;
      * @author: 术与道
      */
     static function docParse($class){
-        
+
         //注释参数
         $data = array();
 
-        $reflection = new \ReflectionClass($class);
+        $an_arr = array();
 
-        //取得方法
-        $methods = $reflection->getMethods(\ReflectionMethod::IS_PUBLIC + \ReflectionMethod::IS_PROTECTED);
+        if(is_file($class)){
+            $io = fopen($class, "r");
+            $content = fread($io,filesize($class));
+            fclose($io);
+            preg_match_all("/\/\*(\s|.)*?\*\//",$content,$an_arr);
+        }else{
+            throw new Exception($class."未找到，请检查你的配置文件");
+            die;
+        }
+        $an_arr = $an_arr[0];
 
-        foreach ($methods as $method) {
+        foreach ($an_arr as $doc) {
             $temp_data = array();//方法注释内容
-            $doc = $method->getDocComment();
-            $arr = explode(PHP_EOL,$doc); //注释分割
-            
+            $arr = explode("\n",$doc); //注释分割
             foreach($arr as $p){
                 $p = trim($p);
                 $isMatch = preg_match("/^\* @\S+ */",$p); //匹配配置有效注释行内容
@@ -60,13 +67,19 @@ use Exception;
                     if(isset($temp_arr[1])){
                         $temp_data[$temp_arr[0]] = $temp_arr[1];//
                     }else{
-                        throw new Exception($class."下".$method->getName."注释中出现未赋值错误");
-                        die;
+                        if($temp_arr[0]=="des"||$temp_arr[0]=="paths"||$temp_arr[0]=="method"||
+                        $temp_arr[0]=="parameter"||$temp_arr[0]=="returnParameter"||$temp_arr[0]=="response"||
+                        $temp_arr[0]=="tips"){
+                            throw new Exception($class."下,出现注释中出现未赋值错误");
+                            die;
+                        }
                     }
                     
                 }
             }
-
+            if(!isset($temp_data["des"])||!isset($temp_data["paths"])||!isset($temp_data['method'])){ //不存在即为不符合
+                continue;
+            }
             //默认参数值
             $temp_data["parameter"] = isset($temp_data["parameter"])?$temp_data["parameter"]:[];
             $temp_data["returnParameter"] = isset($temp_data["returnParameter"])?$temp_data["returnParameter"]:[];
