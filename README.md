@@ -8,11 +8,11 @@
 要求
 ------------
 - PHP 5.6+
-- Composer
+- Composer/Git
 
 安装使用
 ------------
-需要支持Composer，理论上都可以使用P2API
+理论上都可以使用P2API
 
 ```
 composer require shuyudao/p2api
