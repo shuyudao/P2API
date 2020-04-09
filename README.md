@@ -22,7 +22,7 @@
 git clone https://github.com/shuyudao/P2API
 ```
 
-然后进入项目，可以看到config.php，配置父级公共目录，这个公共目录，主要作用就是让你在class配置里少复制一段路径。
+然后进入项目，可以看到 `config.php` 文件，配置父级公共目录，这个公共目录，主要作用就是让你在class配置里少复制一段路径。
 
 `class`，是注释API的文件，一般是框架的控制器文件，如果有多个，就配置多个。
 
