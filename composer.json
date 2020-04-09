@@ -1,0 +1,22 @@
+{
+    "name":"shuyudao/P2API",
+    "description":"API document generator based on controller method annotation",
+    "keywords":["php","P2API","annotation","document generation","API接口文档生成"],
+    "homepage":"https://github.com/shuyudao/P2API",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "术与道",
+            "email": "shuyudao@gmail.com",
+            "role": "Owner"
+        }
+    ],
+    "require": {
+        "php": ">=5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "P2api\\": "/"
+        }
+    }
+}

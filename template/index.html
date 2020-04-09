@@ -1,0 +1,142 @@
+<!-- P2API默认模板 -->
+<html lang="ch">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link rel="stylesheet" href="./static/base.css">
+    <link rel="stylesheet" href="./static/jquery-kq-nav-left.css">
+    <link rel="stylesheet" href="https://www.showdoc.cc/static/editor.md/css/editormd.min.css">
+    <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <script src="https://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        #header {
+            width: 100%;
+            height: 60px;
+            color: #fff;
+            text-align: center;
+            line-height: 60px;
+            font-size: 24px;
+        }
+
+        .hidedata {
+            display: none;
+        }
+
+        #main {
+            width: 100%;
+            height: 100%;
+        }
+
+        #editor-md {
+            padding-left: 260px;
+            height: 100%;
+        }
+
+        thead tr {
+            background-color: rgb(64, 158, 255) !important;
+            color: rgb(255, 255, 255);
+        }
+
+        li {
+            list-style: disc;
+        }
+
+        th {
+            width: 200px;
+        }
+
+        p>strong {
+            border-left: 2px solid #00aeff;
+            padding-left: 6px;
+        }
+
+        pre{
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="nav-left-container">
+        <li id="header">P2API</li>
+
+        {{content}}
+
+    </ul>
+    <div id="main">
+        <div id="editor-md" class="main-editor markdown-body editormd-html-preview">
+
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+
+<script>
+    $('.nav-left-container').on('click', 'li', function () {
+        $(this).find('.glyphicon-menu-right').removeClass('glyphicon-menu-right').addClass(
+            'glyphicon-menu-down');
+        $(this).addClass('active').children('.nav-left-container-small').slideDown()
+
+        $(this).siblings().removeClass('active').children('.nav-left-container-small').slideUp()
+        $(this).siblings().find('.glyphicon-menu-down').removeClass('glyphicon-menu-down').addClass(
+            'glyphicon-menu-right ');
+    })
+</script>
+<script src="https://cdn.bootcss.com/marked/0.3.4/marked.min.js"></script>
+<script>
+    
+    //\n|password |是  |string | 密码    |
+    function runMark(data) {
+
+        data = JSON.parse(data);
+
+        data['parameter'] = JSON.parse("[" + data['parameter'] + "]");
+        data['returnParameter'] = JSON.parse("[" + data['returnParameter'] + "]");
+
+        var parmList = "";
+        for (var i = 0; i < data['parameter'].length; i++) {
+            parmList +=
+                `\n|${data['parameter'][i][0]} |${data['parameter'][i][1]}  |${data['parameter'][i][2]} | ${data['parameter'][i][3]}    |`
+        }
+
+        var reparmList = "";
+        for (var i = 0; i < data['returnParameter'].length; i++) {
+            reparmList +=
+                `\n|${data['returnParameter'][i][0]} |${data['returnParameter'][i][1]}  |${data['returnParameter'][i][2]} |`
+
+        }
+        if(data['response']!="暂无示例"&&data['response']!=undefined){
+            data['response'] = "\n"+JSON.stringify(JSON.parse(data['response']),null,2);
+        }
+
+        return '**接口描述：** \n\n- ' + data['des'] + '\n\n**请求URL：** \n- ` ' + data['paths'] + ' `\n  \n**请求方式：**\n- ' +
+            data['method'] + ' \n\n**参数：** \n\n|参数名|必选|类型|说明|\n|:----    |:---|:----- |-----   |' + parmList +
+            '\n\n **返回示例**\n\n```'+data['response']+'```\n\n **返回参数说明** \n\n|参数名|类型|说明|\n|:-----  |:-----|-----                           |' +
+            reparmList + ' |\n\n **备注** \n\n- 无\n\n';
+    }
+
+
+    var initData = $(".J_menuItem span").eq(0).html();
+    var pre = JSON.parse(initData);
+    $("#editor-md").html(`<h2>${pre[0]}</h2><div>${pre[1]}</div>`);
+
+    $(".J_menuItem").click(function () {
+        if($(this).find("em").text()=="序言"){
+            var pre = JSON.parse($(this).find("span").eq(0).html());
+            $("#editor-md").html(`<h2>${pre[0]}</h2><div>${pre[1]}</div>`);
+        }else{
+            $("#editor-md").html(marked(runMark($(this).find("span").eq(0).html())));
+        }
+    })
+</script>
