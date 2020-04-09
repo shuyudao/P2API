@@ -1,5 +1,5 @@
 {
-    "name":"shuyudao/P2API",
+    "name":"shuyudao/p2api",
     "description":"API document generator based on controller method annotation",
     "keywords":["php","P2API","annotation","document generation","API接口文档生成"],
     "homepage":"https://github.com/shuyudao/P2API",
