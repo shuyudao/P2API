@@ -12,35 +12,39 @@
 
 安装使用
 ------------
-理论上都可以使用P2API
+理论上都可以使用P2API，将项目克隆到本地
 
 ```
-composer require shuyudao/p2api
+git clone https://github.com/shuyudao/P2API
 ```
 
-在你的项目入口或者框架入口**结尾**，添加如下代码：
+然后进入项目，可以看到config.php，配置父级公共目录，这个公共目录，主要作用就是让你在class配置里少复制一段路径。
+
+`class`，是注释API的文件，一般是框架的控制器文件，如果有多个，就配置多个。
+
+同时需要注意的是，`publicPath+class['你的文件']`拼接起的路径必须为完整路径
 
 ```
+//配置实例
 $config = array(
+    "publicPath"=>"C:\Users\sad\Desktop\test\app\controller\", //公共目录，绝对路径，是下面class所有文件共同的父目录
     "class"=>[
-        "app\\controller\\index"
-    ],//含有接口注释的类，比如这个就是index控制器类，如果有namespace，请完整填写，将会扫描所有的方法
+        "StudentCtrl.php",
+        "haha/IndexCtrl.php"
+    ],//含有API接口注释的类文件
     "preface"=>["API接口项目名","项目描述，支持HTML"], //文档首页
-    "outpath"=>"C:\Users\sad\Downloads\xxxx" //生成文档的保存位置，必须为目录，绝对路径
+    "outpath"=>"C:\Users\sad\Downloads\mydoc" //生成文档的保存位置，必须为目录，绝对路径
 ); 
 
-$p2api = new P2api($config);
-
-$p2api->run();
 ```
 
 给你的控制器或者相关的PHP类方法上添加要求的注释
 
-然后，使用php命令执行，必须使用php命令执行该文件，也就是php-cli
+然后，在P2API项目根目录使用php命令执行，必须使用php命令执行该文件，也就是php-cli
 ```
 php index.php 
 ```
-如有问题请issue
+
 
 注释要求
 --------
