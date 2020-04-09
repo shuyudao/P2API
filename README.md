@@ -1,18 +1,22 @@
 # P2API
 
-面向PHP，基于方法注释的API接口文档生成器
+基于方法注释的API接口文档生成工具
 
-可开发自定义接口文档模板、灵活添加注释字段满足更多需求，搭配IDE的自动注释生成，简直起飞。
+快速通用、方便简单、基于同方法注释，在写注释的同时就把API文档给写完了。
+
+同时你也可开发自定义接口文档模板、灵活添加注释字段满足更多个性化的需求，可搭配IDE的自动注释生成。
 
 
 要求
 ------------
 - PHP 5.6+
-- Composer/Git
+
 
 安装使用
 ------------
-理论上都可以使用P2API，将项目克隆到本地
+只要有注释，理论上都可以使用P2API，甚至不限于PHP语言。
+
+将项目克隆到本地：
 
 ```
 git clone https://github.com/shuyudao/P2API
@@ -22,7 +26,7 @@ git clone https://github.com/shuyudao/P2API
 
 `class`，是注释API的文件，一般是框架的控制器文件，如果有多个，就配置多个。
 
-同时需要注意的是，`publicPath+class['你的文件']`拼接起的路径必须为完整路径
+同时需要注意的是，`publicPath+class['你的文件']` 拼接起的路径必须为完整路径
 
 ```
 //配置实例
@@ -80,4 +84,30 @@ php index.php
 
 再次说明，可选参数注释要么不写上去，要么就不要留空。注释参数值，其实任何值都行，如果你使用自定义的模板，可以随你怎么填值，但是三个必填注释，必须有。
 
-更多...
+
+
+默认效果
+------
+![image.png](https://i.loli.net/2020/04/10/g49AHbGWRZkDOlI.png)
+
+![image.png](https://i.loli.net/2020/04/10/eqABSYx3N9WTwsP.png)
+
+![image.png](https://i.loli.net/2020/04/10/gHA3flF2o76LYCX.png)
+
+
+更多实现
+------
+- [x] 自定义模板支持
+
+- [] 多种输出方式
+
+- [] 模拟测试请求
+
+- [] 更多自定义
+
+- [] 文档管理
+
+
+License
+------
+[The MIT License (MIT)](https://github.com/shuyudao/P2API/blob/master/LICENSE)
